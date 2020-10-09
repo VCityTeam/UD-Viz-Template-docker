@@ -1,2 +1,3 @@
 # UD-Viz-docker
-Docker wrap up for UD-Viz
+This repo holds the docker context to be used for building docker images (containers)
+of the [UD-Viz](https://github.com/VCityTeam/UD-Viz) software.
