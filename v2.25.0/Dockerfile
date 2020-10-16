@@ -1,0 +1,46 @@
+FROM ubuntu:focal
+
+LABEL maintainer "VCityTeam"
+LABEL source.repo "https://github.com/VCityTeam/UD-Viz-docker"
+
+RUN apt-get update
+
+######### Install UD-Viz and build it with npm
+RUN apt-get install -y nodejs
+RUN apt-get install -y npm
+RUN apt-get install -y git
+
+RUN mkdir -p WebDemos
+WORKDIR /WebDemos
+RUN git clone https://github.com/MEPP-team/UD-Viz.git
+WORKDIR /WebDemos/UD-Viz/UD-Viz-Core
+RUN npm install
+RUN npm run build 
+
+######### Install apache2
+
+# tzdata is an apache2 package dependency that requires some interactive
+# configuration. The following is a non interactive workaround, refer to
+# https://stackoverflow.com/questions/8671308/non-interactive-method-for-dpkg-reconfigure-tzdata/20693661
+ARG DEBIAN_FRONTEND=noninteractive
+ARG DEBCONF_NONINTERACTIVE_SEEN=true
+RUN echo "tzdata tzdata/Areas select Europe" > preseed.txt
+RUN echo "tzdata tzdata/Zones/Europe select Berlin" >> preseed.txt
+RUN debconf-set-selections preseed.txt
+
+RUN apt-get install -y apache2
+
+# The site definition will expose the content of the above defined
+# WebDemos directory
+COPY dockerized_udv_demo.conf /etc/apache2/sites-available/
+
+# Remove the default server (which is a symlink anyhow) to avoid collisions:
+RUN rm -f /etc/apache2/sites-enabled/000-default.conf 
+
+# Enable the virtual site
+RUN a2ensite dockerized_udv_demo.conf
+
+EXPOSE 80
+# Launch httpd. Reference
+# - https://stackoverflow.com/questions/44376852/how-to-start-apache2-automatically-in-a-ubuntu-docker-container
+CMD [ "apache2ctl", "-D", "FOREGROUND" ]
