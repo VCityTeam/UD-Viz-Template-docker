@@ -18,6 +18,12 @@ RUN npm install
 RUN npm run build 
 
 ######### Install apache2
+# Although serving the site can be done by running `npm start` when on
+# a desktop, it seems that using npm in a containerized context is not
+# that simple, refer e.g. to https://github.com/iTowns/itowns/issues/1503
+# The current workaround, that might be a little overkill, consists in
+# using an independent httpd server to serve the JS/html code that was 
+# build (refer above) with npm. 
 
 # tzdata is an apache2 package dependency that requires some interactive
 # configuration. The following is a non interactive workaround, refer to
