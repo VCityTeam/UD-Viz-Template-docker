@@ -36,6 +36,7 @@ RUN debconf-set-selections preseed.txt
 
 RUN apt-get install -y apache2
 
+######### Expose (through http) UD-Viz
 # The site definition will expose the content of the above defined
 # WebDemos directory
 COPY dockerized_udv_demo.conf /etc/apache2/sites-available/
@@ -45,6 +46,19 @@ RUN rm -f /etc/apache2/sites-enabled/000-default.conf
 
 # Enable the virtual site
 RUN a2ensite dockerized_udv_demo.conf
+
+######### Expose (through http) the Tilesets required by UD-Viz demos
+# Appache2 configuration defines DocumentRoot as being
+# /WebDemos/UD-Viz/UD-Viz-Core. We thus copy content in 
+# sub-directory of Document Root.
+#
+# References concerning the wget ad-hoc flags
+# https://askubuntu.com/questions/719410/wget-web-crawler-retrieves-unwanted-index-html-index-files
+WORKDIR /WebDemos/UD-Viz/UD-Viz-Core
+RUN mkdir -p DataStore
+WORKDIR /WebDemos/UD-Viz/UD-Viz-Core/DataStore
+RUN apt-get install -y wget
+RUN wget --recursive --no-parent --no-host-directories --cut-dirs=1 -R 'index.html?*' http://rict2.liris.cnrs.fr/DataStore/Lyon-2015-gltf-repaired/
 
 EXPOSE 80
 # Launch httpd. Reference
