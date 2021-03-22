@@ -1,14 +1,14 @@
 FROM ubuntu:focal
 
 LABEL maintainer "VCityTeam"
-LABEL source.repo "https://github.com/VCityTeam/UD-Viz-docker"
+LABEL source.repo "https://github.com/VCityTeam/UD-Viz-demo-docker"
 
 RUN apt-get update
 
 ######### Install UD-Viz and build it with npm
-RUN apt-get install -y nodejs
-RUN apt-get install -y npm
-RUN apt-get install -y git
+RUN apt-get install -y nodejs; node --version
+RUN apt-get install -y npm; npm --version
+RUN apt-get install -y git; git --version
 
 RUN mkdir -p WebDemos
 WORKDIR /WebDemos
