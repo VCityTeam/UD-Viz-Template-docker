@@ -1,0 +1,10 @@
+os: linux
+dist: focal
+services:
+  - docker
+
+before_install:
+  # Build all the images
+  - docker build -t ud-viz:demo v2.25.0/Context
+  - docker build -t ud-viz:demofull v2.31.0/DemoFull
+
