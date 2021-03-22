@@ -6,13 +6,16 @@ LABEL source.repo "https://github.com/VCityTeam/UD-Viz-demo-docker"
 RUN apt-get update
 
 ######### Install UD-Viz and build it with npm
-RUN apt-get install -y nodejs; node --version
-RUN apt-get install -y npm; npm --version
-RUN apt-get install -y git; git --version
+RUN apt-get install -y nodejs
+RUN node --version
+RUN apt-get install -y npm
+RUN npm --version
+RUN apt-get install -y git
+RUN git --version
 
 RUN mkdir -p WebDemos
 WORKDIR /WebDemos
-RUN git clone https://github.com/MEPP-team/UD-Viz.git
+RUN git clone --branch v2.25.0 https://github.com/MEPP-team/UD-Viz.git
 WORKDIR /WebDemos/UD-Viz/UD-Viz-Core
 RUN npm install
 RUN npm run build 
