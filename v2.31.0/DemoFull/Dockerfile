@@ -14,7 +14,7 @@ RUN apt-get update
 ARG DOCUMENT_ROOT=/UD-Viz-demo/DemoFull
 
 ######### Install the UD-Viz demo per se (client code) and build it
-# Node version 14 is a required. For installation on focal refer to e.g.
+# Node version 14 is required. For its installation (on focal) refer to e.g.
 #  https://computingforgeeks.com/install-node-js-14-on-ubuntu-debian-linux/
 RUN apt-get install -y curl
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
