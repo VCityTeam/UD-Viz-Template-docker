@@ -11,7 +11,7 @@ RUN apt-get update
 # Both (client and data) will be served by a single Appache2 http server
 # configured to expose (refer to Apache2's DocumentRoot variable) the
 # DOCUMENT_ROOT sub-directory.
-ARG DOCUMENT_ROOT=/UD-Viz-demo/DemoFull
+ARG DOCUMENT_ROOT=/UD-Viz-demo/
 
 ######### Install the UD-Viz demo per se (client code) and build it
 # Node version 14 is required. For its installation (on focal) refer to e.g.
@@ -24,26 +24,22 @@ RUN npm --version
 RUN apt-get install -y git
 RUN git --version
 
-RUN git clone --branch v2.31.0 https://github.com/VCityTeam/UD-Viz-demo.git
+RUN git clone --branch v2.31.4 https://github.com/VCityTeam/UD-Viz-demo.git
+WORKDIR $DOCUMENT_ROOT/Imuv
+RUN npm install
+RUN npm run build-debug
+
+######### Install the Imuv server 
+# Note: the ImuvServer serves two things
+#  1. the game server part (where avatars are, collissions...)
+#  2. the http server for the client (ExpressJS based)
+WORKDIR $DOCUMENT_ROOT/ImuvServer
+RUN npm install
+RUN npm run build
+
 WORKDIR $DOCUMENT_ROOT
-RUN npm install
-RUN npm run build
-
-######### Expose (through http) the 3DTiles tilesets 
-# The tilesets are required by the demo. 
-# References concerning the wget ad-hoc flags
-# https://askubuntu.com/questions/719410/wget-web-crawler-retrieves-unwanted-index-html-index-files
-RUN mkdir -p $DOCUMENT_ROOT/DataStore
-WORKDIR $DOCUMENT_ROOT/DataStore
-RUN apt-get install -y wget
-RUN wget --recursive --no-parent --no-host-directories --cut-dirs=1 -R 'index.html?*' http://rict2.liris.cnrs.fr/DataStore/Lyon-2015-gltf-repaired/
-
-######### Install the ExpressJS server
-WORKDIR $DOCUMENT_ROOT/../SimpleServer
-RUN npm install
-RUN npm run build
-
-EXPOSE 10000
+EXPOSE 8000
 # Launch httpd. Reference
 # - https://stackoverflow.com/questions/44376852/how-to-start-apache2-automatically-in-a-ubuntu-docker-container
-CMD [ "node", "./index.js", "../DemoFull", "10000" ]
+# FIXME Add the port argument
+CMD [ "node", "./ImuvServer/index.js" ]
