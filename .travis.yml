@@ -3,7 +3,7 @@ dist: focal
 services:
   - docker
 
-before_install:
+install:
   # Build all the images
   - cd v2.31.6
   - docker build -t ud-viz:demofull-apache DemoFull-Apache
