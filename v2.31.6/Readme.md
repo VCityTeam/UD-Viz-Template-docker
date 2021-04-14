@@ -1,4 +1,4 @@
-# Docker based demos of UD-Viz (version v2.31.4).
+# Docker based demos of UD-Viz (version v2.31.6).
 
 This directory holds the various docker based demos of [UD-Viz](https://github.com/VCityTeam/UD-Viz) version 2.31.4.
 Each sub-directory holds a docker context to be used for building a docker image (container) of the demo considered demo and the instructions to run
@@ -78,6 +78,29 @@ and run the container with
 
 ```bash
 docker run [-d] -p 8080:80/tcp --rm -t ud-viz:imuv
+```
+
+and open a web browser on URL `http://localhost:8080/`
+
+## ImuvEditor (for developers)
+
+STILL UNDER CONSTRUTION:
+ - we seem to be missing the game part: there is only the editor
+   and the main frame (displaying the world view) is empty
+
+This demo illustrate the height-map editor tool used by the developers in
+order to edit the height maps used by the UD-Viz game engine.
+
+Build the docker image with
+
+```bash
+docker build -t ud-viz:imuv-editor ImuvEditor
+```
+
+and run the container with
+
+```bash
+docker run [-d] -p 8080:80/tcp --rm -t ud-viz:imuv-editor
 ```
 
 and open a web browser on URL `http://localhost:8080/`
