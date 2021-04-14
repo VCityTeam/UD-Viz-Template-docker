@@ -24,7 +24,7 @@ RUN npm --version
 RUN apt-get install -y git
 RUN git --version
 
-RUN git clone --branch v2.31.4 https://github.com/VCityTeam/UD-Viz-demo.git
+RUN git clone --branch v2.31.6 https://github.com/VCityTeam/UD-Viz-demo.git
 WORKDIR $DOCUMENT_ROOT
 RUN npm install
 RUN npm run build
@@ -44,6 +44,4 @@ RUN npm install
 RUN npm run build
 
 EXPOSE 80
-# Launch httpd. Reference
-# - https://stackoverflow.com/questions/44376852/how-to-start-apache2-automatically-in-a-ubuntu-docker-container
 CMD [ "node", "./index.js", "../DemoFull", "80" ]

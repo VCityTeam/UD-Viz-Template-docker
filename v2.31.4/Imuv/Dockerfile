@@ -24,7 +24,21 @@ RUN npm --version
 RUN apt-get install -y git
 RUN git --version
 
-RUN git clone --branch v2.31.4 https://github.com/VCityTeam/UD-Viz-demo.git
+# The gm module invokes the convert binary through a system call.
+# We must thus install imagemagick at the package level
+# imagemagick package has dependency that requires some interactive
+# configuration. The following is a non interactive workaround, refer to
+# https://stackoverflow.com/questions/8671308/non-interactive-method-for-dpkg-reconfigure-tzdata/20693661
+ARG DEBIAN_FRONTEND=noninteractive
+ARG DEBCONF_NONINTERACTIVE_SEEN=true
+RUN echo "tzdata tzdata/Areas select Europe" > preseed.txt
+RUN echo "tzdata tzdata/Zones/Europe select Berlin" >> preseed.txt
+RUN debconf-set-selections preseed.txt
+RUN apt-get install -y imagemagick graphicsmagick
+
+RUN git clone --branch v2.31.6 https://github.com/VCityTeam/UD-Viz-demo.git
+
+######### Builds the client application
 WORKDIR $DOCUMENT_ROOT/Imuv
 RUN npm install
 RUN npm run build-debug
@@ -32,14 +46,11 @@ RUN npm run build-debug
 ######### Install the Imuv server 
 # Note: the ImuvServer serves two things
 #  1. the game server part (where avatars are, collissions...)
-#  2. the http server for the client (ExpressJS based)
+#  2. the http server for the client (ExpressJS based): previous build
+#     in `Imuv` directory
 WORKDIR $DOCUMENT_ROOT/ImuvServer
 RUN npm install
 RUN npm run build
 
-WORKDIR $DOCUMENT_ROOT
-EXPOSE 8000
-# Launch httpd. Reference
-# - https://stackoverflow.com/questions/44376852/how-to-start-apache2-automatically-in-a-ubuntu-docker-container
-# FIXME Add the port argument
-CMD [ "node", "./ImuvServer/index.js" ]
+EXPOSE 80
+CMD [ "node", "./index.js", "../Imuv", "80" ]

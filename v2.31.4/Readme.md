@@ -59,7 +59,7 @@ docker build -t ud-viz:demofull-simpleserver DemoFull-SimpleServer
 and run the container with
 
 ```bash
-docker run -d -p 8080:10000/tcp --rm -t ud-viz:demofull-simpleserver
+docker run [-d] -p 8080:80/tcp --rm -t ud-viz:demofull-simpleserver
 ```
 
 and open a web browser on URL `http://localhost:8080/`
@@ -77,7 +77,7 @@ docker build -t ud-viz:imuv Imuv
 and run the container with
 
 ```bash
-docker run -d -p 8080:8000/tcp --rm -t ud-viz:imuv
+docker run [-d] -p 8080:80/tcp --rm -t ud-viz:imuv
 ```
 
 and open a web browser on URL `http://localhost:8080/`
