@@ -1,10 +1,14 @@
 os: linux
 dist: focal
+language: generic
 services:
   - docker
 
-before_install:
+install:
   # Build all the images
-  - docker build -t ud-viz:demo v2.25.0/Context
-  - docker build -t ud-viz:demofull v2.31.0/DemoFull
+  - cd v2.31.6
+  - docker build -t ud-viz:demofull-apache DemoFull-Apache
+  - docker build -t ud-viz:demofull-simpleserver DemoFull-SimpleServer
+  - docker build -t ud-viz:imuv Imuv
+  - docker build -t ud-viz:imuv-editor ImuvEditor
 
