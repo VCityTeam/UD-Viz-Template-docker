@@ -1,14 +1,30 @@
 os: linux
 dist: focal
-language: generic
+language: node_js
+node_js:
+  - 14
 services:
   - docker
 
+env:
+  - FAILURE_THRESHOLD=1
+  
 install:
-  # Build all the images
-  - cd v2.31.6
-  - docker build -t ud-viz:demofull-apache DemoFull-Apache
-  - docker build -t ud-viz:demofull-simpleserver DemoFull-SimpleServer
-  - docker build -t ud-viz:imuv Imuv
-  - docker build -t ud-viz:imuv-editor ImuvEditor
+  - npm install --global remark-cli remark-validate-links
 
+jobs:
+  include:
+    - stage: DemoFull-Apache
+      script:
+        - cd v2.31.6 && docker build -t ud-viz:demofull-apache DemoFull-Apache
+    - stage: DemoFull-SimpleServer
+      script:
+        - cd v2.31.6 && docker build -t ud-viz:demofull-simpleserver DemoFull-SimpleServer
+    - stage: "Markdown link checks"
+      script:
+        - remark -u validate-links .
+        - |
+          export warnings=`remark -u validate-links . 2>&1 | grep warning | grep "Link to unknown" | wc -l` &&
+          if [ $warnings -gt $FAILURE_THRESHOLD ]; then
+            exit 1;
+          fi
