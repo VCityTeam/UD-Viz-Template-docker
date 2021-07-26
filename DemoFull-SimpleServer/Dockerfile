@@ -36,7 +36,7 @@ RUN npm run build
 RUN mkdir -p $DOCUMENT_ROOT/DataStore
 WORKDIR $DOCUMENT_ROOT/DataStore
 RUN apt-get install -y wget
-RUN wget --recursive --no-parent --no-host-directories --cut-dirs=1 -R 'index.html?*' http://rict2.liris.cnrs.fr/DataStore/Lyon-2015-gltf-repaired/
+RUN wget --recursive --no-parent --no-host-directories --cut-dirs=1 -R 'index.html?*' https://dataset-dl.liris.cnrs.fr/three-d-tiles-lyon-metropolis/Lyon_2015-gltf-repaired_TileSet/
 
 ######### Install the ExpressJS server
 WORKDIR $DOCUMENT_ROOT/../SimpleServer
