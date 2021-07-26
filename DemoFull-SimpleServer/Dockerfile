@@ -1,7 +1,7 @@
 FROM ubuntu:focal
 
 LABEL maintainer "VCityTeam"
-LABEL source.repo "https://github.com/VCityTeam/UD-Viz-demo-docker"
+LABEL source.repo "https://github.com/VCityTeam/UD-Viz-Template-docker"
 
 RUN apt-get update
 
@@ -11,7 +11,7 @@ RUN apt-get update
 # Both (client and data) will be served by a single Appache2 http server
 # configured to expose (refer to Apache2's DocumentRoot variable) the
 # DOCUMENT_ROOT sub-directory.
-ARG DOCUMENT_ROOT=/UD-Viz-demo/DemoFull
+ARG DOCUMENT_ROOT=/UD-Viz-Template/DemoFull
 
 ######### Install the UD-Viz demo per se (client code) and build it
 # Node version 14 is required. For its installation (on focal) refer to e.g.
