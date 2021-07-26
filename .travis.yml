@@ -10,10 +10,10 @@ jobs:
   include:
     - stage: DemoFull-Apache
       script:
-        - cd v2.31.6 && docker build -t ud-viz:demofull-apache DemoFull-Apache
+        - docker build -t ud-viz:demofull-apache DemoFull-Apache
     - stage: DemoFull-SimpleServer
       script:
-        - cd v2.31.6 && docker build -t ud-viz:demofull-simpleserver DemoFull-SimpleServer
+        - docker build -t ud-viz:demofull-simpleserver DemoFull-SimpleServer
     - stage: "Markdown link checks"
       language: node_js
       node_js: 12
