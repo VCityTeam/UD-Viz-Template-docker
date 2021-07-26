@@ -24,7 +24,7 @@ RUN npm --version
 RUN apt-get install -y git
 RUN git --version
 
-RUN git clone --branch v2.31.6 https://github.com/VCityTeam/UD-Viz-demo.git
+RUN git clone --branch v2.32.4 https://github.com/VCityTeam/UD-Viz-Template.git
 WORKDIR $DOCUMENT_ROOT
 RUN npm install
 RUN npm run build
