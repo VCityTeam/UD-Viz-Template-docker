@@ -39,9 +39,10 @@ RUN apt-get install -y wget
 RUN wget --recursive --no-parent --no-host-directories --cut-dirs=1 -R 'index.html?*' https://dataset-dl.liris.cnrs.fr/three-d-tiles-lyon-metropolis/Lyon_2015-gltf-repaired_TileSet/
 
 ######### Install the ExpressJS server
-WORKDIR $DOCUMENT_ROOT/../SimpleServer
+WORKDIR /
+RUN git clone https://github.com/VCityTeam/UD-SimpleServer.git
+WORKDIR UD-SimpleServer
 RUN npm install
-RUN npm run build
 
 EXPOSE 80
 CMD [ "node", "./index.js", "../DemoFull", "80" ]
