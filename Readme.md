@@ -15,7 +15,7 @@ This demo illustrates
 Build the docker image with
 
 ```bash
-docker build -t ud-viz:demofull-apache DemoFull-Apache
+docker build -t vcity/ud-viz-demofull-apache DemoFull-Apache
 ```
 
 Retrieve your Fully Qualified Domain Name (FQDN). For example on OSX using
@@ -26,7 +26,7 @@ and then `host <host_IP_number>` to retrieve the FQDN.
 Run the container with
 
 ```bash
-docker run [-d] -h <FQDN> -p 8080:80/tcp --rm -t ud-viz:demofull-apache
+docker run [-d] -h <FQDN> -p 8080:80/tcp --rm -t vcity/ud-viz-demofull-apache
 ```
 
 and open a web browser on URL `http://localhost:8080/`
@@ -52,13 +52,13 @@ uses an [ExpressJS](https://en.wikipedia.org/wiki/Express.js) web-server.
 Build the docker image with
 
 ```bash
-docker build -t ud-viz:demofull-simpleserver DemoFull-SimpleServer
+docker build -t vcity/ud-viz-demofull-simpleserver DemoFull-SimpleServer
 ```
 
 and run the container with
 
 ```bash
-docker run [-d] -p 8080:80/tcp --rm -t ud-viz:demofull-simpleserver
+docker run [-d] -p 8080:80/tcp --rm -t vcity/ud-viz-demofull-simpleserver
 ```
 
 and open a web browser on URL `http://localhost:8080/`
